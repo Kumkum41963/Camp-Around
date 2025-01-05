@@ -50,10 +50,10 @@ router.put('/campgrounds/:id', async (req, res) => {
     res.redirect(`/campgrounds/${campgrounds._id}`);
 });
 
-router.put('/campgrounds/:id', async (req, res) => {
+router.delete('/campgrounds/:id', async (req, res) => {
     const { id } = req.params;
-   await Campground.findByIdAndDelete(id, { ...req.body.campground }, { new: true });
-    res.redirect(`/campgrounds`);
+   await Campground.findByIdAndDelete(id);
+    res.redirect('/campgrounds');
 });
 
 
