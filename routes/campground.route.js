@@ -21,27 +21,27 @@ router.get('/campgrounds', async (req, res) => {
 
 // the order does matter for we can not have new being treated as our id if campgrounds/:id comes first
 // displaying the page where we can create new campground -> form
-router.get('/campgrounds/new',(req,res)=>{
+router.get('/campgrounds/new', (req, res) => {
     res.render('campgrounds/new')
 })
 
 // allows client to enter and save the data
-router.post('/campgrounds',async (req,res)=>{
-    const newCampground=new Campground(req.body.campground)
+router.post('/campgrounds', async (req, res) => {
+    const newCampground = new Campground(req.body.campground)
     await newCampground.save();
     res.redirect(`/campgrounds/${newCampground._id}`)
 })
 
-// displaying single campground
-router.get('/campgrounds/:id',async (req,res)=>{
+// displaying single campground -> 
+router.get('/campgrounds/:id', async (req, res) => {
     const campgrounds = await Campground.findById(req.params.id);
-    res.render('campgrounds/show',{campgrounds})
+    res.render('campgrounds/show', { campgrounds })
 })
 
 // displaying to be edit campground form
-router.get('/campgrounds/:id/edit',async (req,res)=>{
+router.get('/campgrounds/:id/edit', async (req, res) => {
     const campgrounds = await Campground.findById(req.params.id);
-    res.render('campgrounds/edit',{campgrounds})
+    res.render('campgrounds/edit', { campgrounds })
 })
 
 router.put('/campgrounds/:id', async (req, res) => {
@@ -52,7 +52,7 @@ router.put('/campgrounds/:id', async (req, res) => {
 
 router.delete('/campgrounds/:id', async (req, res) => {
     const { id } = req.params;
-   await Campground.findByIdAndDelete(id);
+    await Campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
 });
 

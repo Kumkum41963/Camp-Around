@@ -1,6 +1,7 @@
 const dotenv = require('dotenv')
 dotenv.config();
 const express = require('express')
+const engine =require('ejs-mate')
 const connectDb = require('./config/db')
 const campground=require('./routes/campground.route.js')
 const methodOverride=require('method-override')
@@ -9,6 +10,7 @@ const app = express()
 
 const PORT = process.env.PORT || 3000;
 
+app.engine('ejs',engine)
 // app.use(express.json())
 // to parse the body into json
 app.use(express.urlencoded({extended:true}))
