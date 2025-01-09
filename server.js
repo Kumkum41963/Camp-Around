@@ -15,6 +15,8 @@ app.engine('ejs',engine)
 // to parse the body into json
 app.use(express.urlencoded({extended:true}))
 
+app.use(express.json())
+
 app.use(methodOverride('_method'))
 
 const path = require('path')
@@ -28,13 +30,19 @@ app.get('/', (req, res) => {
 
 app.use('/',campground)
 
+
+
+app.use((err, req, res, next) => {
+    const { message = "Something went wrong!", statusCode = 500 } = err;
+    res.status(statusCode).render('error', { message });
+});
+
+
 connectDb()
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
 })
 
-// app.listen(PORT, () => {
-//     console.log(`Listening on port ${PORT}`)
-// })
+// the error midlle ware is still not working fine 
 
