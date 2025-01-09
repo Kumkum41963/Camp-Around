@@ -2,8 +2,10 @@ const dotenv = require('dotenv')
 dotenv.config();
 const express = require('express')
 const engine =require('ejs-mate')
-const connectDb = require('./config/db')
-const campground=require('./routes/campground.route.js')
+const connectDb = require('./utils/dbConfig.js')
+const campgroundRoute=require('./routes/campgroundRoutes.js')
+const reviewRoute=require('./routes/reviewRoutes.js')
+const errorHandling=require('./routes/errorHandlingRoutes.js')
 const methodOverride=require('method-override')
 
 const app = express()
@@ -28,9 +30,10 @@ app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.use('/',campground)
-
-
+// Route integration : we can not use /:id directly in .use()
+app.use('/campgrounds',campgroundRoute)
+app.use('/campgrounds',reviewRoute)
+app.use(errorHandling)
 
 app.use((err, req, res, next) => {
     const { message = "Something went wrong!", statusCode = 500 } = err;
