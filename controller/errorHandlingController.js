@@ -5,6 +5,7 @@ const showExpressError=(req, res, next) => {
 }
 
 const showErrorPage=(err, req, res, next) => {
+    console.log('error triggered in here',err)
     const { message = "Something went wrong!", statusCode = 500 } = err;
     if (!err.message) err.message = 'oh , no something is going haywireeeeee!!!'
     res.status(statusCode).render('error', { err });
