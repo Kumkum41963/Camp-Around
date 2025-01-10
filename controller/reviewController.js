@@ -2,7 +2,7 @@ const ExpressError = require('../utils/ExpressError');
 const Review = require('../models/reviewModel')
 const Campground = require('../models/campgroundModel');
 
-const saveReview=async (req, res, next) => {
+const saveReview = async (req, res, next) => {
     const campgrounds = await Campground.findById(req.params.id);
     if (!campgrounds) {
         // If the campground is not found, return an error
@@ -13,6 +13,7 @@ const saveReview=async (req, res, next) => {
     try {
         await review.save();
         await campgrounds.save();
+        req.flash('success', 'Successfully saved review')
         res.redirect(`/campgrounds/${campgrounds._id}`);
     } catch (e) {
         next(new ExpressError('Error saving the review', 500));
@@ -21,7 +22,7 @@ const saveReview=async (req, res, next) => {
 
 // remove the review 
 // remove the ref of this review from campground too
-const deleteReview=async (req, res) => {
+const deleteReview = async (req, res) => {
     // Extracting campground ID and review ID from request parameters
     const { id, reviewId } = req.params;
 
@@ -35,8 +36,10 @@ const deleteReview=async (req, res) => {
     // This removes the actual review data from the database
     await Review.findByIdAndDelete(reviewId);
 
+    req.flash('success', 'Successfully deleted review')
+
     // Redirect the user back to the campground's show page
     res.redirect(`/campgrounds/${id}`);
 }
 
-module.exports={saveReview,deleteReview}
+module.exports = { saveReview, deleteReview }

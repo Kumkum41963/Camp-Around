@@ -16,13 +16,19 @@
                 <div class="card">
                     <div class="row">
                         <div class="col-md-4">
-                            <img class="img-fluid"  src="<%= campground.image %>" alt="Please check the network">
+                            <img class="img-fluid" src="<%= campground.image %>" alt="Please check the network">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title"><%= campground.title %></h5>
-                                <p class="card-text"><%= campground.description %></p>
-                                <small class="text-muted"><%= campground.location %></small>
+                                <h5 class="card-title">
+                                    <%= campground.title %>
+                                </h5>
+                                <p class="card-text">
+                                    <%= campground.description %>
+                                </p>
+                                <small class="text-muted">
+                                    <%= campground.location %>
+                                </small>
                                 <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>">
                                     View <%= campground.title %>
                                 </a>

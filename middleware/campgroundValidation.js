@@ -1,5 +1,5 @@
 const ExpressError = require('../utils/ExpressError'); // Ensure you are importing ExpressError properly
-const {campgroundSchema}=require('../validationSchemas')
+const { campgroundSchema } = require('../validationSchemas')
 
 // Middleware for validation
 const validateCampground = (req, res, next) => {

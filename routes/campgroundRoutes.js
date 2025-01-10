@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const validateCampground = require('../middleware/campgroundValidation')
-const {showAllCampgrounds,newCampgroundForm,saveNewCampground,showSingleCampground,showEditForm,updateEditForm,deleteCampground} = require('../controller/campgroundController')
+const { showAllCampgrounds, newCampgroundForm, saveNewCampground, showSingleCampground, showEditForm, updateEditForm, deleteCampground } = require('../controller/campgroundController')
 
 
 router.get('/', catchAsync(showAllCampgrounds));
 
-router.get('/new',newCampgroundForm );
+router.get('/new', newCampgroundForm);
 
 router.post('/', validateCampground, catchAsync(saveNewCampground));
 
