@@ -7,9 +7,13 @@ const methodOverride = require('method-override')
 const path = require('path')
 const session = require('express-session')
 const flash = require('connect-flash')
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
 const campgroundRoute = require('./routes/campgroundRoutes.js')
 const reviewRoute = require('./routes/reviewRoutes.js')
+const userRoute = require('./routes/userRoute.js')
 const errorHandling = require('./routes/errorHandlingRoutes.js')
+const User = require('./models/userModel.js')
 
 const app = express()
 
@@ -47,10 +51,21 @@ const sessionOptions = {
         httpOnly: true
     }
 };
-
 app.use(session(sessionOptions))
-
 app.use(flash())
+
+// session must be used before passport
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Use passport-local-mongoose's built-in authenticate method
+passport.use(new LocalStrategy(User.authenticate()));
+
+// Serialize and deserialize users
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // flash middlleware
 app.use((req, res, next) => {
@@ -59,7 +74,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
@@ -67,8 +81,10 @@ app.set('views', path.join(__dirname, 'views'))
 app.get('/', (req, res) => {
     res.render('home')
 })
+
 app.use('/campgrounds', campgroundRoute)
 app.use('/campgrounds', reviewRoute)
+app.use('/', userRoute)
 app.use(errorHandling)
 
 connectDb()
