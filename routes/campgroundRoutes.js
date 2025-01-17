@@ -5,12 +5,11 @@ const validateCampground = require('../middleware/campgroundValidation')
 const { isLoggedIn } = require('../middleware/isLoggedIn')
 const { showAllCampgrounds, newCampgroundForm, saveNewCampground, showSingleCampground, showEditForm, updateEditForm, deleteCampground } = require('../controller/campgroundController')
 
-
 router.get('/', catchAsync(showAllCampgrounds));
 
-router.get('/new', isLoggedIn, newCampgroundForm);
+router.get('/new',  newCampgroundForm);
 
-router.post('/', validateCampground, catchAsync(saveNewCampground));
+router.post('/', isLoggedIn,validateCampground, catchAsync(saveNewCampground));
 
 router.get('/:id', catchAsync(showSingleCampground));
 
