@@ -12,6 +12,9 @@ const registerUser = async (req, res) => {
         const user = new User({ email, username })
         const registeredUser = await User.register(user, password)
         console.log(registeredUser)
+        // it is a method of passport only that 
+        // creates a session and stores their serialized user ID in the session store
+        // for invoking automatically log in the newly registered use
         req.login(registeredUser, err => {
             if (err) return next(err);
             req.flash('success', 'welcome to camp-around')
@@ -28,18 +31,20 @@ const showLoginForm = (req, res) => {
 }
 
 const loginUser = [
-    // Use the storeReturnTo middleware to save the returnTo value from session to res.locals
-    storeReturnTo,
-    // passport.authenticate logs the user in and clears req.session
+    // Middleware 1: Save the 'returnTo' value for redirection
+    storeReturnTo, 
+
+    // Middleware 2: Authenticate the user using Passport.js
     passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }),
-    // Now we can use res.locals.returnTo to redirect the user after login
+
+    // Middleware 3: Final handler to flash a success message and redirect
     (req, res) => {
-      req.flash('success', 'Welcome back!');
-      const redirectUrl = res.locals.returnTo || '/campgrounds'; // Use res.locals.returnTo for redirection
-      res.redirect(redirectUrl);
+        req.flash('success', 'Welcome back!'); // Display success message
+        // Redirect to the saved page or default to '/campgrounds'
+        const redirectUrl = res.locals.returnTo || '/campgrounds';
+        res.redirect(redirectUrl);
     }
-  ];
-  
+];
 
 const logoutUser = (req, res) => {
     req.logout((err) => {
