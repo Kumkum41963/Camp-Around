@@ -12,14 +12,16 @@ const newCampgroundForm = (req, res) => {
 
 const saveNewCampground = async (req, res, next) => {
     const newCampground = new Campground(req.body.campground);
+    // create an author associated to this currently logged in user
+    newCampground.author=req.user._id
     await newCampground.save();
     req.flash('success', 'Campground created successfully')
     res.redirect(`/campgrounds/${newCampground._id}`);
 }
 
 const showSingleCampground = async (req, res, next) => {
-    const campgrounds = await Campground.findById(req.params.id).populate('reviews');
-    console.log(campgrounds)
+    const campgrounds = await Campground.findById(req.params.id).populate('reviews').populate('author');
+    console.log('Checking why author not coming : ',campgrounds)
     if (!campgrounds) {
         req.flash('error', 'Campground not found');
         return res.redirect('/campgrounds');
@@ -38,7 +40,7 @@ const showEditForm = async (req, res, next) => {
 
 const updateEditForm = async (req, res, next) => {
     const { id } = req.params;
-    const campgrounds = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
+    const campgrounds = await Campground.findById(id, { ...req.body.campground }, { new: true });
     if (!campgrounds) {
         return next(new ExpressError("Campground not found", 404)); // Pass the error to next()
     }

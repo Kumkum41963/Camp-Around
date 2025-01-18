@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
         })
     } catch (error) {
         req.flash('error', error.message)
-        res.redirect('register')
+        res.redirect('/register')
     }
 }
 
