@@ -3,18 +3,18 @@ const Review = require('../models/reviewModel')
 const Campground = require('../models/campgroundModel');
 
 const saveReview = async (req, res, next) => {
-    const campgrounds = await Campground.findById(req.params.id);
-    if (!campgrounds) {
+    const campground = await Campground.findById(req.params.id);
+    if (!campground) {
         // If the campground is not found, return an error
         return next(new ExpressError('Campground not found', 404));
     }
     const review = new Review(req.body.review);
-    campgrounds.reviews.push(review);
+    campground.reviews.push(review);
     try {
         await review.save();
-        await campgrounds.save();
+        await campground.save();
         req.flash('success', 'Successfully saved review')
-        res.redirect(`/campgrounds/${campgrounds._id}`);
+        res.redirect(`/campgrounds/${campground._id}`);
     } catch (e) {
         next(new ExpressError('Error saving the review', 500));
     }

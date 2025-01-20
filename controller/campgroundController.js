@@ -20,32 +20,54 @@ const saveNewCampground = async (req, res, next) => {
 }
 
 const showSingleCampground = async (req, res, next) => {
-    const campgrounds = await Campground.findById(req.params.id).populate('reviews').populate('author');
-    console.log('Checking why author not coming : ',campgrounds)
-    if (!campgrounds) {
-        req.flash('error', 'Campground not found');
-        return res.redirect('/campgrounds');
+    try {
+        // Find the campground by ID, populate associated reviews, and populate authors for both campground and reviews
+        const campground = await Campground.findById(req.params.id)
+            .populate({
+                path: 'reviews', // Populate the 'reviews' field
+                populate: {
+                    path: 'author', 
+                    select:'username'
+                },
+            })
+            .populate('author'); // Populate the 'author' field for the campground
+
+        // Check if the campground exists
+        if (!campground) {
+            req.flash('error', 'Campground not found'); // Flash an error message if not found
+            return res.redirect('/campgrounds'); // Redirect to the campgrounds list
+        }
+
+        // Log the campground for debugging purposes
+        console.log('Campground data:', campground);
+
+        // Render the show page, passing the campground data to the template
+        res.render('campgrounds/show', { campground });
+    } catch (error) {
+        // Handle errors (e.g., invalid ID or database issues)
+        console.error('Error fetching campground:', error);
+        req.flash('error', 'Something went wrong, please try again later.');
+        res.redirect('/campgrounds'); // Redirect to the campgrounds list
     }
-    res.render('campgrounds/show', { campgrounds });
-}
+};
 
 const showEditForm = async (req, res, next) => {
-    const campgrounds = await Campground.findById(req.params.id);
-    if (!campgrounds) {
+    const campground = await Campground.findById(req.params.id);
+    if (!campground) {
         req.flash('error', 'Campground not found')
         return res.redirect('/campgrounds');
     }
-    res.render('campgrounds/edit', { campgrounds });
+    res.render('campgrounds/edit', { campground });
 }
 
 const updateEditForm = async (req, res, next) => {
     const { id } = req.params;
-    const campgrounds = await Campground.findById(id, { ...req.body.campground }, { new: true });
-    if (!campgrounds) {
+    const campground = await Campground.findById(id, { ...req.body.campground }, { new: true });
+    if (!campground) {
         return next(new ExpressError("Campground not found", 404)); // Pass the error to next()
     }
     req.flash('success', 'Successfully updated campground')
-    res.redirect(`/campgrounds/${campgrounds._id}`);
+    res.redirect(`/campgrounds/${campground._id}`);
 }
 
 const deleteCampground = async (req, res, next) => {
