@@ -9,6 +9,7 @@ const saveReview = async (req, res, next) => {
         return next(new ExpressError('Campground not found', 404));
     }
     const review = new Review(req.body.review);
+    review.author=req.user._id;
     campground.reviews.push(review);
     try {
         await review.save();

@@ -9,16 +9,16 @@ const campgroundSchema = new Schema({
     price: Number,
     description: String,
     location: String,
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-    },
     reviews: [
         {
             type: Schema.Types.ObjectId,
             ref: "Review",
         },
     ],
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    },
 });
 
 // Post middleware for 'findOneAndDelete' to handle cascading deletion of reviews

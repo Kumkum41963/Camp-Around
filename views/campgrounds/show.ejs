@@ -34,6 +34,7 @@
             <div class="col-md-6">
                 <h2>Leave A Review</h2>
                 <div>
+                    <!-- need to change that they can seee but can not add unless they login -->
                     <% if(currentUser){ %>
                         <form action="/campgrounds/<%= campground._id %>/reviews" class="mb-3 validated-form" method="POST" novalidate>
                             <!-- Review rating -->
@@ -59,7 +60,8 @@
                                 <div class="card-body">
                                     <p><strong>Rating:</strong> <%= review.rating %></p>
                                     <p><strong>Review:</strong> <%= review.body %></p>
-                                    <p><strong>Review By:</strong> <%= review.author.username %></p>
+                                    <p><strong>Review By:</strong> <%= review.author ? review.author.username : 'Anonymous' %></p>
+
                                     
                                     <% if(currentUser && review.author.equals(currentUser._id)) { %>
                                         <form action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">

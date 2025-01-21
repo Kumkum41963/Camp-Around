@@ -23,14 +23,13 @@ const showSingleCampground = async (req, res, next) => {
     try {
         // Find the campground by ID, populate associated reviews, and populate authors for both campground and reviews
         const campground = await Campground.findById(req.params.id)
+            .populate('author')
             .populate({
                 path: 'reviews', // Populate the 'reviews' field
                 populate: {
-                    path: 'author', 
-                    select:'username'
+                    path: 'author'
                 },
-            })
-            .populate('author'); // Populate the 'author' field for the campground
+            }); // Populate the 'author' field for the campground
 
         // Check if the campground exists
         if (!campground) {
@@ -40,6 +39,8 @@ const showSingleCampground = async (req, res, next) => {
 
         // Log the campground for debugging purposes
         console.log('Campground data:', campground);
+        console.log('Checking the review data : ',campground.reviews);
+        console.log('Checking review.author data :',campground.reviews.author)
 
         // Render the show page, passing the campground data to the template
         res.render('campgrounds/show', { campground });

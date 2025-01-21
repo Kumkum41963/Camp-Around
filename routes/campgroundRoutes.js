@@ -18,7 +18,8 @@ router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(showEditForm));
 
 router.put('/:id', validateCampground, isAuthor, catchAsync(updateEditForm));
 
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(deleteCampground));
+// put isAuthor here but abhi checking ke liye let it be
+router.delete('/:id', isLoggedIn,  catchAsync(deleteCampground));
 
 module.exports = router;
 
