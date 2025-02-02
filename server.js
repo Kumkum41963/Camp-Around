@@ -1,5 +1,7 @@
 const dotenv = require('dotenv')
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 const express = require('express')
 const ejsMate = require('ejs-mate')
 const connectDb = require('./utils/dbConfig.js')
@@ -70,7 +72,7 @@ passport.deserializeUser(User.deserializeUser());
 // flash middlleware
 app.use((req, res, next) => {
     // req.user comes from passport 
-    res.locals.currentUser=req.user;
+    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();

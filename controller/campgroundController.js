@@ -12,9 +12,11 @@ const newCampgroundForm = (req, res) => {
 
 const saveNewCampground = async (req, res, next) => {
     const newCampground = new Campground(req.body.campground);
+    newCampground.images = req.files.map(f => ({ url: f.path, filename: f.filename }))
     // create an author associated to this currently logged in user
-    newCampground.author=req.user._id
+    newCampground.author = req.user._id
     await newCampground.save();
+    console.log(newCampground)
     req.flash('success', 'Campground created successfully')
     res.redirect(`/campgrounds/${newCampground._id}`);
 }
@@ -39,8 +41,8 @@ const showSingleCampground = async (req, res, next) => {
 
         // Log the campground for debugging purposes
         console.log('Campground data:', campground);
-        console.log('Checking the review data : ',campground.reviews);
-        console.log('Checking review.author data :',campground.reviews.author)
+        console.log('Checking the review data : ', campground.reviews);
+        console.log('Checking review.author data :', campground.reviews.author)
 
         // Render the show page, passing the campground data to the template
         res.render('campgrounds/show', { campground });
@@ -62,14 +64,31 @@ const showEditForm = async (req, res, next) => {
 }
 
 const updateEditForm = async (req, res, next) => {
-    const { id } = req.params;
-    const campground = await Campground.findById(id, { ...req.body.campground }, { new: true });
+    const { id } = req.params; // Get campground ID from request parameters
+    console.log('Request body:', req.body);
+
+    // Update the campground and return the updated document
+    const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
+
     if (!campground) {
-        return next(new ExpressError("Campground not found", 404)); // Pass the error to next()
+        return next(new ExpressError("Campground not found", 404)); // Handle not found error
     }
-    req.flash('success', 'Successfully updated campground')
-    res.redirect(`/campgrounds/${campground._id}`);
-}
+
+    // Check if images are included and add them to the campground
+    if (req.files && req.files.length > 0) {
+        const images = req.files.map(f => ({ url: f.path, filename: f.filename }));
+        campground.images.push(...images);
+    } else {
+        console.log('No images uploaded');
+    }
+
+    await campground.save(); // Save updated campground
+
+    req.flash('success', 'Successfully updated campground'); // Flash success message
+    res.redirect(`/campgrounds/${campground._id}`); // Redirect to updated campground page
+};
+
+
 
 const deleteCampground = async (req, res, next) => {
     const { id } = req.params;

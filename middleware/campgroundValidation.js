@@ -1,7 +1,8 @@
 const ExpressError = require('../utils/ExpressError'); // Ensure you are importing ExpressError properly
-const { campgroundSchema } = require('../validationSchemas')
+const { campgroundSchema } = require('../utils/validationSchemas')
 
 // Middleware for validation
+// all field be filled and so on like that only
 const validateCampground = (req, res, next) => {
     // req.body becauce we require the whole 'joi' campground
     const { error } = campgroundSchema.validate(req.body);

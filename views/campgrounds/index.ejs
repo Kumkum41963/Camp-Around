@@ -16,7 +16,9 @@
                 <div class="card">
                     <div class="row">
                         <div class="col-md-4">
-                            <img class="img-fluid" src="<%= campground.image %>" alt="Please check the network">
+                            <img class="img-fluid" 
+                            src="<%= campground.images && campground.images.url ? campground.images.url : 'default-image-url.jpg' %>" 
+                            alt="Please check the network">                       
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">

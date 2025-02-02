@@ -1,5 +1,5 @@
 const ExpressError = require('../utils/ExpressError')
-const { reviewSchema } = require('../validationSchemas')
+const { reviewSchema } = require('../utils/validationSchemas')
 
 // Middleware for validation
 const validateReview = (req, res, next) => {
