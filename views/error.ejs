@@ -3,9 +3,13 @@
         <h4 class="alert-heading">
             <%= err.message %>
         </h4>
-        <p>
-            <%= err.stack %>
-        </p>
-        <p>Gosh,enter proper data!</p>
-        <p class="mb-0">Be sure please next time thankyou</p>
+
+        <% if(process.env.NODE_ENV!=='production' ){ %>
+            <p>
+                <%= err.stack %>
+            </p>
+            <% } %>
+
+                <p>Gosh,enter proper data!</p>
+                <p class="mb-0">Be sure please next time thankyou</p>
     </div>
