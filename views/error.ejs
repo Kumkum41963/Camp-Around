@@ -1,15 +1,45 @@
 <% layout('layouts/boilerplate') %>
-    <div class="alert danger alert-danger w-100 mx-auto" role="alert">
-        <h4 class="alert-heading">
-            <%= err.message %>
-        </h4>
 
-        <% if(process.env.NODE_ENV!=='production' ){ %>
-            <p>
-                <%= err.stack %>
-            </p>
-            <% } %>
+<style>
+  .alert-dark-custom {
+    background-color: #1e1e1e;
+    border: 1px solid #ff4d4d;
+    color: #f8d7da;
+    border-radius: 1rem;
+    padding: 1.5rem 2rem;
+    max-width: 700px;
+    margin-top: 5rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
 
-                <p>Gosh,enter proper data!</p>
-                <p class="mb-0">Be sure please next time thankyou</p>
-    </div>
+  .alert-dark-custom h4 {
+    color: #ff6b6b;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .alert-dark-custom p {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+  }
+
+  body {
+    background-color: #121212;
+    color: #f0f0f0;
+  }
+</style>
+
+<div class="alert-dark-custom mx-auto text-center">
+  <h4 class="alert-heading">
+    <%= err.message %>
+  </h4>
+
+  <% if (process.env.NODE_ENV !== 'production') { %>
+    <p><%= err.stack %></p>
+  <% } %>
+
+  <p>Gosh, enter proper data!</p>
+  <p class="mb-0">Be sure next time please. Thank you!</p>
+</div>

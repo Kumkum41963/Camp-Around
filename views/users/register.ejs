@@ -1,27 +1,79 @@
 <% layout('layouts/boilerplate') %>
 
-<h1>Register</h1>
+<style>
+  /* Make the entire background dark */
+  body {
+    background-color: #121212; /* true dark */
+    color: #f1f1f1;
+  }
 
-<form action="/register" method="POST" class="validated-form" novalidate>
-    <div class="mb-3">
-        <div>
-            <label for="username" class="form-label">Username</label>
-            <input type="text" id="username" name="username" required class="form-control">
-        </div>
-    
-        <div>
-            <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" name="email" required class="form-control">
-        </div>
-    
-        <div>
-            <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" name="password" required class="form-control">
-        </div>
-    
+  .register-container {
+    background-color: #1f1f1f;
+    padding: 2.5rem 2rem;
+    border-radius: 1rem;
+    max-width: 500px;
+    margin: 4rem auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .register-container h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 600;
+  }
+
+  .form-control {
+    background-color: #2a2a2a;
+    color: #f1f1f1;
+    border: 1px solid #444;
+    border-radius: 0.5rem;
+  }
+
+  .form-control:focus {
+    border-color: #00cec9;
+    box-shadow: none;
+  }
+
+  label {
+    font-weight: 500;
+  }
+
+  .btn-success {
+    width: 100%;
+    border-radius: 2rem;
+    padding: 0.6rem;
+    font-weight: 500;
+  }
+
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+</style>
+
+<div class="register-container">
+  <h1>Register</h1>
+
+  <form action="/register" method="POST" class="validated-form" novalidate>
+    <!-- Username -->
+    <div class="form-group">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" id="username" name="username" required class="form-control">
     </div>
-    
-    <div>
-        <button type="submit" class="btn btn-success">Register</button>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" id="email" name="email" required class="form-control">
     </div>
-</form>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" id="password" name="password" required class="form-control">
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-success">Register</button>
+  </form>
+</div>
+

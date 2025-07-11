@@ -1,48 +1,118 @@
 <% layout('layouts/boilerplate') %>
-    <h1>Campgrounds</h1>
-    <div>
-        <a href="/campgrounds/new">Add Campground</a>
-    </div>
-    <ul>
-        <% for(let campground of campgrounds){ %>
-            <li>
-                <%= campground.title %>
-            </li>
-            <% } %>
-    </ul>
-    <h1>All campgrounds</h1>
-        <ul>
-            <% for(let campground of campgrounds){ %>
-                <div class="card">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img class="img-fluid" 
-src="<%= campground.images.length > 0 ? campground.images[0].url : 'default-image-url.jpg' %>" 
-alt="Campground Image">
-                      
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <%= campground.title %>
-                                </h5>
-                                <p class="card-text">
-                                    <%= campground.description %>
-                                </p>
-                                <small class="text-muted">
-                                    <%= campground.location %>
-                                </small>
-                                <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>">
-                                    Read More
-                                </a>
-                                <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST" class="mt-3">
-                                    <button class="btn btn-danger">Delete</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <% } %>
-        </ul>
+
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-accent">Campgrounds</h1>
+    <a href="/campgrounds/new" class="btn btn-success">+ Add Campground</a>
+  </div>
+
+  <div class="row g-3">
+    <% for (let campground of campgrounds) { %>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card campground-card text-light shadow-sm border-0 h-100">
+          <% if (campground.images.length > 0) { %>
+            <img src="<%= campground.images[0].url %>" class="card-img-top"
+              alt="Campground Image"
+              style="height: 140px; object-fit: cover; border-radius: 0.75rem 0.75rem 0 0;" />
+          <% } else { %>
+            <div class="bg-secondary d-flex align-items-center justify-content-center"
+              style="height: 140px; border-radius: 0.75rem 0.75rem 0 0;">
+              <span class="text-light fw-semibold">No Image</span>
+            </div>
+          <% } %>
+
+          <div class="card-body d-flex flex-column p-3">
+            <h5 class="card-title mb-2 text-title fw-bold"><%= campground.title %></h5>
+            <p class="card-text mb-2 text-description">
+              <%= campground.description.length > 60 ? campground.description.slice(0, 60) + '...' : campground.description %>
+            </p>
+            <small class="text-location mb-2">📍 <%= campground.location %></small>
+            <div class="mt-auto d-flex justify-content-between">
+              <a href="/campgrounds/<%= campground._id %>" class="btn btn-outline-accent btn-sm">View</a>
+              <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<style>
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .text-accent {
+    color: #00ffc3;
+  }
+
+  .campground-card {
+    background-color: #1f1f1f;
+    border-radius: 0.75rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .campground-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+  }
+
+  .card-title.text-title {
+    color: #00ffc3;
+    font-size: 1.1rem;
+  }
+
+  .text-description {
+    color: #ffffffd9;
+    font-size: 0.92rem;
+  }
+
+  .text-location {
+    color: #aaa;
+    font-size: 0.85rem;
+  }
+
+  .btn-outline-accent {
+    border: 1px solid #00ffc3;
+    color: #00ffc3;
+    background-color: transparent;
+  }
+
+  .btn-outline-accent:hover {
+    background-color: #00ffc3;
+    color: #121212;
+  }
+
+  .btn-success {
+    background-color: #00ffc3;
+    border: none;
+    color: #121212;
+    font-weight: 500;
+  }
+
+  .btn-success:hover {
+    background-color: #00e6b4;
+    color: #121212;
+  }
+
+  .btn-danger {
+    background-color: #ff5252;
+    border: none;
+    color: #fff;
+  }
+
+  .btn-danger:hover {
+    background-color: #e74c3c;
+  }
+</style>
+
+
+
+
     
 

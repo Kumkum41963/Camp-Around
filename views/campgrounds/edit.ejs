@@ -1,81 +1,128 @@
 <% layout('layouts/boilerplate') %>
-    <div class="row">
-        <h1 class="text-center">Edit Campground</h1>
-        <div class="col-6 offset-3">
-            <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" novalidate class="validated-form">
-                <!-- Title -->
-                <div class="mb-3">
-                    <label class="form-label" for="title">Title</label>
-                    <input class="form-control" type="text" id="title" name="campground[title]"
-                        value="<%= campground.title %>" required>
-                    <div class="invalid-feedback">
-                        Please enter a title
-                    </div>
-                </div>
 
-                <!-- Location -->
-                <div class="mb-3">
-                    <label class="form-label" for="location">Location</label>
-                    <input class="form-control" type="text" id="location" name="campground[location]"
-                        value="<%= campground.location %>" required>
-                    <div class="invalid-feedback">
-                        Please enter a location
-                    </div>
-                </div>
+<style>
+  body {
+    background-color: #121212;
+    color: #f0f0f0;
+  }
 
-                <!-- Image -->
-                <div class="mb-3">
-                    <label for="image" class="form-label">Image URL</label>
-                    <input type="file" name="image" multiple>
-                    <div class="invalid-feedback">
-                        Please enter the image url
-                    </div>
-                </div>
+  .text-accent {
+    color: #00b894;
+  }
 
-                <!-- Description -->
-                <div class="mb-3">
-                    <label class="form-label" for="description">Description</label>
-                    <textarea class="form-control" type="text" id="description" name="campground[description]"
-                        required><%= campground.description %></textarea>
-                    <div class="invalid-feedback">
-                        Please enter the description
-                    </div>
-                </div>
+  .card input:focus,
+  .card textarea:focus {
+    background-color: #1e1e1e;
+    border-color: #00b894;
+    color: #fff;
+    box-shadow: none;
+  }
 
-                <!-- Price -->
-                <div class="mb-3">
-                    <label class="form-label" for="price">Price</label>
-                    <input class="form-control" type="text" id="price" name="campground[price]"
-                        value="<%= campground.price %>" required>
-                    <div class="invalid-feedback">
-                        Please enter the price
-                    </div>
-                </div>
+  .card label {
+    font-weight: 500;
+  }
 
-                <button class="btn btn-success">Add campground</button>
-            </form>
-            <a href="/campgrounds">All Campgrounds</a>
+  .card {
+    background-color: #1f1f1f;
+    border: 1px solid #2d2d2d;
+    border-radius: 1rem;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .form-control {
+    background-color: #2a2a2a;
+    color: #f1f1f1;
+    border: 1px solid #444;
+  }
+
+  .form-control:focus {
+    border-color: #00b894;
+    box-shadow: none;
+  }
+
+  .btn-success {
+    background-color: #00b894;
+    border-color: #00b894;
+  }
+
+  .btn-success:hover {
+    background-color: #019170;
+    border-color: #019170;
+  }
+
+  a.text-accent:hover {
+    color: #00e0b0;
+  }
+</style>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card text-light shadow-lg p-4">
+        <h2 class="text-center mb-4 text-accent">Edit Campground</h2>
+
+        <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+          <!-- Title -->
+          <div class="mb-3">
+            <label class="form-label" for="title">Title</label>
+            <input class="form-control" type="text" id="title" name="campground[title]" value="<%= campground.title %>" required>
+            <div class="invalid-feedback">Please enter a title</div>
+          </div>
+
+          <!-- Location -->
+          <div class="mb-3">
+            <label class="form-label" for="location">Location</label>
+            <input class="form-control" type="text" id="location" name="campground[location]" value="<%= campground.location %>" required>
+            <div class="invalid-feedback">Please enter a location</div>
+          </div>
+
+          <!-- Image -->
+          <div class="mb-3">
+            <label for="image" class="form-label">Upload Image(s)</label>
+            <input class="form-control" type="file" name="image" multiple>
+            <div class="invalid-feedback">Please upload an image</div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label class="form-label" for="description">Description</label>
+            <textarea class="form-control" id="description" name="campground[description]" rows="4" required><%= campground.description %></textarea>
+            <div class="invalid-feedback">Please enter a description</div>
+          </div>
+
+          <!-- Price -->
+          <div class="mb-4">
+            <label class="form-label" for="price">Price</label>
+            <input class="form-control" type="text" id="price" name="campground[price]" value="<%= campground.price %>" required>
+            <div class="invalid-feedback">Please enter a price</div>
+          </div>
+
+          <div class="d-grid">
+            <button class="btn btn-success btn-lg rounded-pill">Update Campground</button>
+          </div>
+        </form>
+
+        <div class="text-center mt-4">
+          <a href="/campgrounds" class="text-decoration-none text-accent">← Back to All Campgrounds</a>
         </div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (() => {
-            'use strict'
+<script>
+  (() => {
+    'use strict'
+    const forms = document.querySelectorAll('.validated-form')
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.validated-form')
-
-            // Loop over them and prevent submission
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
-    </script>

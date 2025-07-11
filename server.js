@@ -109,5 +109,3 @@ connectDb();
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });
-// the error middleware is still not working fine : it does now i repeated showError code two times , once where it is now and once in here server.js
-
