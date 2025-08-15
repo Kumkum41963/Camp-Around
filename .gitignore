@@ -14,5 +14,5 @@ yarn-error.log*
 Thumbs.db
 
 
-/seeds
-/seeds/campgroundSeed.js
+seeds/
+seeds/campgroundSeed.js/
