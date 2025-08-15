@@ -1,6 +1,7 @@
 const ExpressError = require('../utils/ExpressError');
 const Campground = require('../models/campgroundModel');
 
+// READ
 const showAllCampgrounds = async (req, res, next) => {
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds });
@@ -8,17 +9,6 @@ const showAllCampgrounds = async (req, res, next) => {
 
 const newCampgroundForm = (req, res) => {
     res.render('campgrounds/new');
-}
-
-const saveNewCampground = async (req, res, next) => {
-    const newCampground = new Campground(req.body.campground);
-    newCampground.images = req.files.map(f => ({ url: f.path, filename: f.filename }))
-    // create an author associated to this currently logged in user
-    newCampground.author = req.user._id
-    await newCampground.save();
-    console.log(newCampground)
-    req.flash('success', 'Campground created successfully')
-    res.redirect(`/campgrounds/${newCampground._id}`);
 }
 
 const showSingleCampground = async (req, res, next) => {
@@ -63,8 +53,22 @@ const showEditForm = async (req, res, next) => {
     res.render('campgrounds/edit', { campground });
 }
 
+// CREATE
+const saveNewCampground = async (req, res, next) => {
+    const newCampground = new Campground(req.body.campground); // create campground with parsed and validated data
+    newCampground.images = req.files.map(f => ({ url: f.path, filename: f.filename }))
+    // create an author associated to this currently logged in user
+    newCampground.author = req.user._id
+    await newCampground.save();
+    console.log(newCampground)
+    req.flash('success', 'Campground created successfully')
+    res.redirect(`/campgrounds/${newCampground._id}`);
+}
+
+// UPDATE
 const updateEditForm = async (req, res, next) => {
     const { id } = req.params; // Get campground ID from request parameters
+    
     console.log('Request body:', req.body);
 
     // Update the campground and return the updated document
@@ -88,8 +92,7 @@ const updateEditForm = async (req, res, next) => {
     res.redirect(`/campgrounds/${campground._id}`); // Redirect to updated campground page
 };
 
-
-
+// DELETE
 const deleteCampground = async (req, res, next) => {
     const { id } = req.params;
     const campground = await Campground.findByIdAndDelete(id);

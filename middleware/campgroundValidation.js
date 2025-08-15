@@ -4,7 +4,7 @@ const { campgroundSchema } = require('../utils/validationSchemas')
 // Middleware for validation
 // all field be filled and so on like that only
 const validateCampground = (req, res, next) => {
-    // req.body becauce we require the whole 'joi' campground
+    // req.body because we require the whole 'joi' campground
     const { error } = campgroundSchema.validate(req.body);
 
     if (error) {

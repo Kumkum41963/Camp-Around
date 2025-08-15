@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema; // destructuring
 const Review = require("./reviewModel");
 const User = require("./userModel");
 
@@ -27,6 +27,7 @@ const campgroundSchema = new Schema({
 });
 
 // Post middleware for 'findOneAndDelete' to handle cascading deletion of reviews
+// when campground deletes -> associated reviews will also be deleted
 campgroundSchema.post("findOneAndDelete", async function (doc) {
     // Check if a document was deleted (doc is not null or undefined)
     if (doc) {

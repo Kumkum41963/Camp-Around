@@ -1,13 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const catchAsync = require('../utils/catchAsync')
-const { showRegisterForm, registerUser, showLoginForm, loginUser, logoutUser } = require('../controller/userController')
+const { showRegisterForm, registerUser, showLoginForm,  logoutUser , loginUser} = require('../controller/userController')
 
 router.get('/register', showRegisterForm)
+router.get('/login', showLoginForm)
 
 router.post('/register', registerUser)
-
-router.get('/login', showLoginForm)
 
 router.post('/login', loginUser)
 

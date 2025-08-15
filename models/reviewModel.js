@@ -5,9 +5,9 @@ const User = require('./userModel')
 const reviewSchema = new Schema({
     body: String,
     rating: Number,
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: "User"
+    author: { // mongoDB ObjectID
+        type: Schema.Types.ObjectId, // data type: _id
+        ref: "User" // it creates a relationship btw User and Review, i.e relation btw collections, telling mongoose this obj. refers to a doc. in User collection
     }
 })
 

@@ -9,12 +9,20 @@ const userSchema = new Schema({
     }
 })
 
-// Passport-Local Mongoose is a Mongoose plugin that simplifies building username and password login with Passport.
+// Passport-Local Mongoose is a Mongoose plugin that 
+// simplifies building username and password login 
+// with Passport.
+//  It automatically handles hashing, salting, and storing passwords, 
+// and provides convenient helper methods for user registration 
+// and authentication.
 userSchema.plugin(passportLocalMongoose)
 
 const User = mongoose.model('User', userSchema)
 
 module.exports = User
+
+// no need to do as now we got passport
+
 // const userSchema = new mongoose.Schema({
 //     username: { type: String, required: true, unique: true },
 //     password: { type: String, required: true }

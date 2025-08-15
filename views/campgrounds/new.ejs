@@ -1,84 +1,106 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-      <div class="card bg-dark text-light shadow-lg border-0 rounded-4 p-4">
-        <h2 class="text-center mb-4 text-accent">Add a New Campground</h2>
+  <!-- Form to fill the required details to create a new campground -->
 
-        <form action="/campgrounds" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
-          <!-- Title -->
-          <div class="mb-3">
-            <label class="form-label" for="title">Title</label>
-            <input class="form-control bg-dark border-secondary text-light" type="text" id="title" name="campground[title]" required>
-            <div class="invalid-feedback">Please enter a title</div>
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card bg-dark text-light shadow-lg border-0 rounded-4 p-4">
+          <h2 class="text-center mb-4 text-accent">Add a New Campground</h2>
+
+          <form action="/campgrounds" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+
+            <!-- Title -->
+            <div class="mb-3">
+              <label class="form-label" for="title">Title</label>
+              <input class="form-control bg-dark border-secondary text-light" type="text" id="title"
+                name="campground[title]" required>
+              <div class="invalid-feedback">Enter a title</div>
+            </div>
+
+            <!-- Location -->
+            <div class="mb-3">
+              <label class="form-label" for="location">Location</label>
+              <input class="form-control bg-dark border-secondary text-light" type="text" id="location"
+                name="campground[location]" required>
+              <div class="invalid-feedback">Enter a location</div>
+            </div>
+
+            <!-- Image -->
+            <!-- '[]' notation is not needed here because Multer can handle multiple files from a single input with the 'multiple' attribute -->
+            <div class="mb-3">
+              <label for="image" class="form-label">Upload Images</label>
+              <input class="form-control bg-dark border-secondary text-light" type="file" name="image" multiple>
+              <div class="invalid-feedback">Upload an image</div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label class="form-label" for="description">Description</label>
+              <textarea class="form-control bg-dark border-secondary text-light" id="description"
+                name="campground[description]" rows="4" required></textarea>
+              <div class="invalid-feedback">Enter a description</div>
+            </div>
+
+            <!-- Price -->
+            <div class="mb-4">
+              <label class="form-label" for="price">Price</label>
+              <input class="form-control bg-dark border-secondary text-light" type="text" id="price"
+                name="campground[price]" required>
+              <div class="invalid-feedback">Enter a price</div>
+            </div>
+
+            <!-- Add btn -->
+            <div class="d-grid">
+              <button class="btn btn-success btn-lg rounded-pill">Add Campground</button>
+            </div>
+          </form>
+
+          <!-- Back to all -->
+          <div class="text-center mt-4">
+            <a href="/campgrounds" class="text-decoration-none text-accent">← Back to All Campgrounds</a>
           </div>
 
-          <!-- Location -->
-          <div class="mb-3">
-            <label class="form-label" for="location">Location</label>
-            <input class="form-control bg-dark border-secondary text-light" type="text" id="location" name="campground[location]" required>
-            <div class="invalid-feedback">Please enter a location</div>
-          </div>
-
-          <!-- Image -->
-          <div class="mb-3">
-            <label for="image" class="form-label">Upload Image(s)</label>
-            <input class="form-control bg-dark border-secondary text-light" type="file" name="image" multiple>
-            <div class="invalid-feedback">Please upload an image</div>
-          </div>
-
-          <!-- Description -->
-          <div class="mb-3">
-            <label class="form-label" for="description">Description</label>
-            <textarea class="form-control bg-dark border-secondary text-light" id="description" name="campground[description]" rows="4" required></textarea>
-            <div class="invalid-feedback">Please enter a description</div>
-          </div>
-
-          <!-- Price -->
-          <div class="mb-4">
-            <label class="form-label" for="price">Price</label>
-            <input class="form-control bg-dark border-secondary text-light" type="text" id="price" name="campground[price]" required>
-            <div class="invalid-feedback">Please enter a price</div>
-          </div>
-
-          <div class="d-grid">
-            <button class="btn btn-success btn-lg rounded-pill">Add Campground</button>
-          </div>
-        </form>
-
-        <div class="text-center mt-4">
-          <a href="/campgrounds" class="text-decoration-none text-accent">← Back to All Campgrounds</a>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
-<style>
-  body {
-    background-color: #121212;
-    color: #f0f0f0;
+  <style>
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+
+    .text-accent {
+      color: #00b894;
+    }
+
+    .card input:focus,
+    .card textarea:focus {
+      background-color: #1e1e1e;
+      border-color: #00b894;
+      box-shadow: none;
+      color: #fff;
+    }
+
+    .card label {
+      font-weight: 500;
+    }
+
+    .form-control::placeholder {
+      color: #aaa;
+    }
+  </style>
+
+  <!-- The [] notation lets you group multiple fields under a single object when they are sent in req.body. -->
+
+  <!-- req.body = {
+  campground: {
+    title: "My Campground",
+    location: "Himalayas",
+    description: "Beautiful place",
+    price: "100"
   }
-
-  .text-accent {
-    color: #00b894;
-  }
-
-  .card input:focus,
-  .card textarea:focus {
-    background-color: #1e1e1e;
-    border-color: #00b894;
-    box-shadow: none;
-    color: #fff;
-  }
-
-  .card label {
-    font-weight: 500;
-  }
-
-  .form-control::placeholder {
-    color: #aaa;
-  }
-</style>
+} -->

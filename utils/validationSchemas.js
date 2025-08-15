@@ -1,5 +1,5 @@
-const BaseJoi = require('joi'); // Import Joi
-const sanitizeHtml = require('sanitize-html'); // Import sanitize-html
+const BaseJoi = require('joi'); 
+const sanitizeHtml = require('sanitize-html'); 
 
 // Define a custom Joi extension for HTML sanitization
 const extension = (joi) => ({

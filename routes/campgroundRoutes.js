@@ -16,15 +16,17 @@ router.get('/new', newCampgroundForm);
 // POST route for adding a new campground
 router.post(
     '/',
-    isLoggedIn, // Ensure the user is logged in before they can add a campground
-    upload.array('image'), // Handle image upload (multer will add the image data to the request body)
+    isLoggedIn,
+
+    upload.array('image'), // // Multer handles multiple files from 'image' input and adds them to req.files
 
     // The image is uploaded first because the file is added to the request body before validation.
     // multer parses the incoming multipart/form-data, processes the file(s),
     // and attaches them to the `req.body` (in `req.files` for multiple files or `req.file` for a single file).
 
-    validateCampground, // Validate the campground data in the request body after the file is uploaded
-    // The `validateCampground` middleware ensures that the campground data sent in the request body 
+    validateCampground,
+    // Validate the campground data in the request body after the file is uploaded
+    // The `validateCampground` middleware ensures that the campground data is sent in the request body 
     // (such as title, location, description, and price) meets the required format and constraints 
     // (e.g., checking for empty fields, valid values, etc.). It ensures that only valid data 
     // is passed to the next middleware (saving the new campground to the database).
@@ -46,12 +48,11 @@ router.post(
 
 router.get('/:id', catchAsync(showSingleCampground));
 
-router.get('/:id/edit', isLoggedIn,isAuthor,catchAsync(showEditForm));
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(showEditForm));
 
-router.put('/:id',isLoggedIn, isAuthor, upload.array('image'), catchAsync(updateEditForm));
+router.put('/:id', isLoggedIn, isAuthor, upload.array('image'), catchAsync(updateEditForm));
 
-// put isAuthor here but abhi checking ke liye let it be
-router.delete('/:id', isLoggedIn, catchAsync(deleteCampground));
+router.delete('/:id', isLoggedIn, isAuthor, catchAsync(deleteCampground));
 
 module.exports = router;
 
